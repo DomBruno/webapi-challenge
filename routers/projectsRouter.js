@@ -23,7 +23,7 @@ const actionDb = require("../data/helpers/actionModel.js");
         })
     });
     //GET project by id
-    router.get('/:id', (req, res) => {
+    router.get('/:id', validateProjectId, (req, res) => {
 
         projectDb.get(req.params.id)
         .then(project => {
@@ -43,7 +43,7 @@ const actionDb = require("../data/helpers/actionModel.js");
 
     // POST Call
 
-    router.post('/', (req, res) => {
+    router.post('/', validateProject, (req, res) => {
         projectDb.insert(req.body)
         .then(project => {
           res
@@ -61,7 +61,7 @@ const actionDb = require("../data/helpers/actionModel.js");
       });
 
 // PUT Handler
-router.put('/:id', (req, res) => {
+router.put('/:id', validateProjectId, (req, res) => {
     projectDb.update(req.params.id, req.body)
     .then(project => {
       if (project) {
@@ -88,7 +88,7 @@ router.put('/:id', (req, res) => {
 // Using async/await as the server has to take action
 
         // DELETE a Post by Id
-        router.delete('/:id', (req, res) => {
+        router.delete('/:id', validateProjectId, (req, res) => {
             projectDb.remove(req.params.id)
             .then(count => {
               if (count > 0) {
@@ -141,7 +141,9 @@ async function validateProjectId(req, res, next) {
             .status(404)
             .json({ message: "Project with that ID was not found.", });
     } catch {
-      res.status(500).json({
+      res
+      .status(500)
+      .json({
         error:
           "There was an error while attempting to fetch the project with that ID.",
       });
@@ -150,7 +152,9 @@ async function validateProjectId(req, res, next) {
   
   async function validateProject(req, res, next) {
     if (!req.body.name || !req.body.description) {
-      res.status(400).json({
+      res
+      .status(400)
+      .json({
         message:
           "Please provide the required name and description for the project.",
       });
@@ -159,16 +163,7 @@ async function validateProjectId(req, res, next) {
     }
   }
   
-  async function validateAction(req, res, next) {
-    if (!req.body.notes || !req.body.description) {
-      res.status(400).json({
-        message:
-          "Please provide the required description and notes for the project.",
-      });
-    } else {
-      next();
-    }
-  }
+  
   
 
 // export router
