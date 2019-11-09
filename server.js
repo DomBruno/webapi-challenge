@@ -15,7 +15,7 @@ server.use(express.json());
 
 // Bind to Root URLs
 server.use('/api/actions', actionsRouter);
-server.use('api/projects', projectsRouter);
+server.use('/api/projects', projectsRouter);
 
 
 // Call handler for root "/"
