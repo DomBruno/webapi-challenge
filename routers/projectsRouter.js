@@ -127,5 +127,48 @@ router.get("/:id/actions", validateProjectId, async (req, res) => {
     });
   }
 });
+
+// Custom Validation Middleware
+async function validateProjectId(req, res, next) {
+    try {
+      const project = await ProjectDb.get(req.params.id);
+      req.project = project;
+  
+      project
+        ? next()
+        : res
+            .status(404)
+            .json({ message: "Project with that ID was not found.", });
+    } catch {
+      res.status(500).json({
+        error:
+          "There was an error while attempting to fetch the project with that ID.",
+      });
+    }
+  }
+  
+  async function validateProject(req, res, next) {
+    if (!req.body.name || !req.body.description) {
+      res.status(400).json({
+        message:
+          "Please provide the required name and description for the project.",
+      });
+    } else {
+      next();
+    }
+  }
+  
+  async function validateAction(req, res, next) {
+    if (!req.body.notes || !req.body.description) {
+      res.status(400).json({
+        message:
+          "Please provide the required description and notes for the project.",
+      });
+    } else {
+      next();
+    }
+  }
+  
+
 // export router
 module.exports = router;
