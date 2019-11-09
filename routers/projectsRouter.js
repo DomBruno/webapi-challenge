@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const projectDb = require('../data/helpers/projectModel.js');
+const actionDb = require("../data/helpers/actionModel.js");
 
 
  // GET all projects
@@ -24,7 +25,7 @@ const projectDb = require('../data/helpers/projectModel.js');
     //GET project by id
     router.get('/:id', (req, res) => {
 
-        projectDb.get(req.params)
+        projectDb.get(req.params.id)
         .then(project => {
             res
             .status(200)
@@ -88,7 +89,7 @@ router.put('/:id', (req, res) => {
 
         // DELETE a Post by Id
         router.delete('/:id', (req, res) => {
-            projectDb.remove(req.params)
+            projectDb.remove(req.params.id)
             .then(count => {
               if (count > 0) {
                 res
@@ -113,7 +114,7 @@ router.put('/:id', (req, res) => {
           // Get Project Actions
 router.get("/:id/actions", validateProjectId, async (req, res) => {
   try {
-    const actions = await db.getProjectActions(req.params.id);
+    const actions = await projectDb.getProjectActions(req.params.id);
 
     actions.length > 0
       ? res.status(200).json(actions)
@@ -131,7 +132,7 @@ router.get("/:id/actions", validateProjectId, async (req, res) => {
 // Custom Validation Middleware
 async function validateProjectId(req, res, next) {
     try {
-      const project = await ProjectDb.get(req.params.id);
+      const project = await projectDb.get(req.params.id);
       req.project = project;
   
       project
