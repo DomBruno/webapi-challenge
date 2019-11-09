@@ -42,7 +42,7 @@ In our context a Resource is an object returned by the api to the application fo
 
 - [ x  ] How can we partition our application into sub-applications?
 
-    Use of routers and middleware can limit code sprawl in a single file, creating sub applications hic provide for greater ease of code navigation.
+    Use of routers and middleware can limit code sprawl in a single file, creating sub applications which provide for greater ease of code navigation.
 
 ## Project Setup
 
