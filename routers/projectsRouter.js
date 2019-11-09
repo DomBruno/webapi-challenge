@@ -40,5 +40,25 @@ const projectDb = require('../data/helpers/projectModel.js');
             });
             });
     })
+
+    // POST call to api
+
+    router.post('/', (req, res) => {
+        projectDb.insert(req.body)
+        .then(project => {
+          res
+          .status(201)
+          .json(project);
+        })
+        .catch(error => {
+          // log error to server
+          console.log(error);
+          res
+          .status(500)
+          .json({
+            message: 'Error adding the project.',
+          });
+        });
+      });
 // export router
 module.exports = router;

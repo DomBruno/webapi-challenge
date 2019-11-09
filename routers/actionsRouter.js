@@ -41,5 +41,25 @@ router.get('/', (req, res) => {
             });
     })
 
+// POST call to api
+
+    router.post('/', (req, res) => {
+        actionDb.insert(req.body)
+        .then(action => {
+          res
+          .status(201)
+          .json(action);
+        })
+        .catch(error => {
+          // log error to server
+          console.log(error);
+          res
+          .status(500)
+          .json({
+            message: 'Error adding the action.',
+          });
+        });
+      });
+
 // export router
 module.exports = router;
