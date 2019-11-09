@@ -6,7 +6,7 @@ const projectDb = require('../data/helpers/projectModel.js');
 
  // GET all projects
  router.get('/', (req, res) => {
-    projectDb.get(req.query)
+    projectDb.get()
         .then(projects => {
             res
             .status(200)

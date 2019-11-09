@@ -5,7 +5,7 @@ const actionDb = require('../data/helpers/actionModel.js');
 
 // GET all Actions
 router.get('/', (req, res) => {
-    actionDb.get(req.query)
+    actionDb.get()
         .then(actions => {
             res
             .status(200)
