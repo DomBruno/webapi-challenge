@@ -14,7 +14,7 @@ Go code!
 */
 
 
-const server = require('.server.js');
+const server = require('./server');
 
 server.listen(1337, () => {
     console.log(`\n*** Server Running on http://localhost:1337 ***\n`);
